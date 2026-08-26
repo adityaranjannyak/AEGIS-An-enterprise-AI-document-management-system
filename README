@@ -220,31 +220,31 @@ Do not commit real credentials, JWT secrets, database passwords, or other sensit
 
 ### Login & Authentication
 
-![AEGIS Login](screenshots/Login.png)
+![AEGIS Login](dms-frontend/screenshots/Login.png)
 
 ### Dashboard
 
-![AEGIS Dashboard](screenshots/Dashboard.png)
+![AEGIS Dashboard](dms-frontend/screenshots/Dashboard.png)
 
 ### Document Management
 
-![AEGIS Documents](screenshots/Documents%20section.png)
+![AEGIS Documents](dms-frontend/screenshots/Documents%20section.png)
 
 ### AI Assistant & RAG
 
-![AEGIS AI Assistant](screenshots/AI%20ChatBOT.png)
+![AEGIS AI Assistant](dms-frontend/screenshots/AI%20ChatBOT.png)
 
 ### Activity Tracking
 
-![AEGIS Activity](screenshots/Activity%20tab.png)
+![AEGIS Activity](dms-frontend/screenshots/Activity%20tab.png)
 
 ### User Management
 
-![AEGIS Users](screenshots/Users.png)
+![AEGIS Users](dms-frontend/screenshots/Users.png)
 
 ### Profile & Settings
 
-![AEGIS Profile](screenshots/ME.png)
+![AEGIS Profile](dms-frontend/screenshots/ME.png)
 Future Enhancements
 
 Potential future improvements include:
