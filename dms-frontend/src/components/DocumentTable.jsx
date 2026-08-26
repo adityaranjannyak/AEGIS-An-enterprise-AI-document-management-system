@@ -1,0 +1,14 @@
+/* AEGIS Console: document lists privilege metadata scanning, access clarity, and direct contextual actions. */
+/* eslint-disable react-refresh/only-export-components */
+import { Link } from "wouter";
+import { Icon } from "./Icon.jsx";
+import { EmptyState } from "./AsyncState.jsx";
+const FILE_ICONS = { pdf: "PDF", doc: "DOC", docx: "DOC", xls: "XLS", xlsx: "XLS", ppt: "PPT", pptx: "PPT", image: "IMG" };
+const getType = (document) => String(document.type || document.fileType || document.extension || "file").replace(".", "").toLowerCase();
+const getName = (document) => document.name || document.fileName || document.title || "Untitled document";
+const getOwner = (document) => document.owner?.name || document.ownerName || document.uploadedBy?.name || "—";
+const getDate = (document) => document.modifiedAt || document.lastModified || document.uploadedAt || document.createdAt;
+const formatDate = (date) => date ? new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(date)) : "—";
+const formatSize = (bytes) => { if (bytes === undefined || bytes === null) return "—"; const units = ["B", "KB", "MB", "GB"]; let index = 0; let value = Number(bytes); while (value >= 1024 && index < units.length - 1) { value /= 1024; index += 1; } return `${value.toFixed(value < 10 && index ? 1 : 0)} ${units[index]}`; };
+export { getName, getOwner, getType, getDate, formatDate, formatSize };
+export function DocumentTable({ documents = [], actionLabel = "View document", emptyAction, compact = false }) { if (!documents.length) return <EmptyState title="No documents found" message="There are no documents matching this view." action={emptyAction} image="/aegis-empty-documents.jpg" />; return <div className={`document-table-wrap ${compact ? "table-compact" : ""}`}><table className="document-table"><thead><tr><th>Document</th>{!compact && <th>Owner</th>}<th>Access</th><th>{compact ? "Updated" : "Last modified"}</th><th aria-label="Actions" /></tr></thead><tbody>{documents.map((document) => { const type = getType(document); const id = document.id ?? document.documentId; return <tr key={id || getName(document)}><td><Link href={`/documents/${id}`} className="document-cell"><span className={`file-badge file-${type}`}>{FILE_ICONS[type] || <Icon name="file" size={15} />}</span><span><strong>{getName(document)}</strong><small>{type.toUpperCase()} · {formatSize(document.size ?? document.fileSize)}</small></span></Link></td>{!compact && <td>{getOwner(document)}</td>}<td><span className="access-tag">{document.access || document.accessLevel || "Authorized"}</span></td><td>{formatDate(getDate(document))}</td><td><Link href={`/documents/${id}`} className="table-action" aria-label={`${actionLabel}: ${getName(document)}`}><Icon name="arrow" size={17} /></Link></td></tr>; })}</tbody></table></div>; }

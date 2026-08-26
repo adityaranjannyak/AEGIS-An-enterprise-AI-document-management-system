@@ -1,0 +1,5 @@
+/* AEGIS Console: data failures preserve hierarchy and offer an explicit way back to useful work. */
+import { Icon } from "./Icon.jsx";
+export function LoadingState({ label = "Loading records…", compact = false }) { return <div className={`async-state ${compact ? "async-state-compact" : ""}`}><span className="loading-mark" /><p>{label}</p></div>; }
+export function ErrorState({ error, onRetry, title = "We could not load this area." }) { return <div className="async-state error-state"><div className="state-icon"><Icon name="alert" size={22} /></div><h3>{title}</h3><p>{error?.message || "The service returned an unexpected response."}</p>{onRetry && <button className="btn btn-outline-primary btn-sm" onClick={onRetry}><Icon name="arrow" size={15} />Try again</button>}</div>; }
+export function EmptyState({ title, message, action, image }) { return <div className="empty-state">{image && <img src={image} alt="" className="empty-state-image" />}<div className="state-icon"><Icon name="folder" size={23} /></div><h3>{title}</h3><p>{message}</p>{action}</div>; }

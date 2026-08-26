@@ -1,0 +1,31 @@
+/* AEGIS Console: upload follows a visible review path with backend-owned ownership and role-governed permission controls. */
+import { useRef, useState } from "react";
+import { Link } from "wouter";
+import { useAuth } from "../auth/AuthContext.jsx";
+import { documentApi } from "../services/api.js";
+import { PermissionEditor } from "../components/PermissionEditor.jsx";
+import { Icon } from "../components/Icon.jsx";
+import { toast } from "../components/Toaster.jsx";
+import { clearUploadDraft, getUploadDraft, saveUploadDraft } from "../utils/uploadDraft.js";
+import { formatSize } from "../components/DocumentTable.jsx";
+
+const fileType = (file) => file?.name?.split(".").pop()?.toUpperCase() || "—";
+export function UploadPage() {
+  const { session } = useAuth();
+  const initial = getUploadDraft();
+  const [file, setFile] = useState(initial.file);
+  const [name, setName] = useState(initial.name || initial.file?.name || "");
+  const [permissions, setPermissions] = useState(initial.permissions || { roles: [], users: [] });
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const fileInput = useRef(null);
+  const chooseFile = (nextFile) => { if (!nextFile) return; setFile(nextFile); setName(nextFile.name); setError(""); saveUploadDraft({ file: nextFile, name: nextFile.name, permissions }); };
+  const updateName = (nextName) => { setName(nextName); saveUploadDraft({ file, name: nextName, permissions }); };
+  const updatePermissions = (next) => { setPermissions(next); saveUploadDraft({ file, name, permissions: next }); };
+  const drop = (event) => { event.preventDefault(); chooseFile(event.dataTransfer.files?.[0]); };
+  const remove = () => { setFile(null); setName(""); setSuccess(null); clearUploadDraft(); };
+  const submit = async (event) => { event.preventDefault(); if (!file) { setError("Select a file before uploading."); return; } if (!name.trim()) { setError("Provide a document name."); return; } setBusy(true); setError(""); try { const formData = new FormData(); formData.append("file", file); const result = await documentApi.create(session.token, formData); const document = result?.data || result; const id = document.id || document.documentId; if (id && name.trim() !== file.name) await documentApi.update(session.token, id, { name: name.trim() }); if (id && session.user.role !== "EMPLOYEE" && (permissions.users?.length || permissions.roles?.length)) await documentApi.permissions(session.token, id, permissions); clearUploadDraft(); setSuccess({ ...document, name: name.trim() }); toast("Document uploaded successfully.", "success"); } catch (uploadError) { setError(uploadError.message); } finally { setBusy(false); } };
+  if (success) { const id = success.id || success.documentId; return <div className="page upload-page"><section className="upload-success"><div className="success-check"><Icon name="check" size={27} /></div><span className="eyebrow">UPLOAD COMPLETE</span><h1>Document recorded.</h1><p>The service confirmed your upload. Choose what you would like to do next.</p><div className="success-actions">{id && <Link className="btn btn-primary" href={`/documents/${id}`}><Icon name="eye" size={17} />View document</Link>}<Link className="btn btn-outline-primary" href="/my-documents">Go to My Documents</Link><button className="btn btn-light" onClick={() => { setSuccess(null); setFile(null); setName(""); }}>Upload another</button></div></section></div>; }
+  return <div className="page upload-page"><section className="page-intro"><div><span className="eyebrow">NEW RECORD</span><h1>Upload document</h1><p>Choose a file, review its metadata, and set access where your role permits it.</p></div></section><form className="upload-layout" onSubmit={submit}><section className="content-panel upload-main"><div className="panel-heading"><div><span className="eyebrow">01 / FILE</span><h2>Select a document</h2></div></div><button className={`drop-zone ${file ? "has-file" : ""}`} type="button" onClick={() => fileInput.current?.click()} onDragOver={(event) => event.preventDefault()} onDrop={drop}><Icon name={file ? "file" : "upload"} size={24} /><strong>{file ? file.name : "Drop your file here"}</strong><span>{file ? `${fileType(file)} · ${formatSize(file.size)}` : "or browse from your device"}</span></button><input className="visually-hidden" ref={fileInput} type="file" onChange={(event) => chooseFile(event.target.files?.[0])} />{file && <button className="text-button danger-text mt-3" type="button" onClick={remove}><Icon name="close" size={15} />Remove or change file</button>}<div className="metadata-form"><div className="section-rule"><span>02 / METADATA</span></div><label className="form-label" htmlFor="document-name">Document name</label><input className="form-control" id="document-name" value={name} onChange={(event) => updateName(event.target.value)} placeholder="Name this document" /><div className="metadata-grid"><div><span>FILE TYPE</span><strong>{fileType(file)}</strong></div><div><span>FILE SIZE</span><strong>{file ? formatSize(file.size) : "—"}</strong></div><div><span>OWNER</span><strong>{session.user.name || session.user.username}</strong></div><div><span>UPLOAD DATE</span><strong>{new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date())}</strong></div></div></div></section><aside className="upload-aside"><section className="content-panel upload-review"><span className="eyebrow">03 / ACCESS</span><h2>{session.user.role === "EMPLOYEE" ? "Private document" : "Configure permissions"}</h2>{session.user.role === "EMPLOYEE" ? <p className="quiet-note">Your upload will be owned by your account. Sharing and permission management are unavailable for your role.</p> : <PermissionEditor value={permissions} onChange={updatePermissions} />}</section><section className="upload-submit-panel">{error && <div className="form-error" role="alert"><Icon name="alert" size={17} />{error}</div>}<button className="btn btn-primary w-100" disabled={busy}>{busy ? <><span className="button-spinner" />Uploading…</> : <><Icon name="upload" size={17} />Upload document</>}</button><p>Ownership is assigned by the authenticated backend session. Activity is recorded when the backend completes the upload.</p></section></aside></form></div>;
+}

@@ -1,0 +1,20 @@
+spring.application.name=AEGIS
+
+# Main DMS database
+spring.datasource.url=jdbc:mysql://localhost:3306/dms
+spring.datasource.username=YOUR_DMS_DATABASE_USER
+spring.datasource.password=YOUR_DMS_DATABASE_PASSWORD
+spring.jpa.hibernate.ddl-auto=update
+
+# Server
+server.port=8081
+
+# RAG database
+rag.datasource.url=jdbc:postgresql://localhost:5432/dms_rag
+rag.datasource.username=YOUR_RAG_DATABASE_USER
+rag.datasource.password=YOUR_RAG_DATABASE_PASSWORD
+
+# JWT signing secret; set a long random value outside source control in deployment
+dms.jwt.secret=REPLACE_WITH_A_LONG_RANDOM_SECRET
+
+#import secrets; print(secrets.token_urlsafe(64)) // Run this to get a lang random value. 
