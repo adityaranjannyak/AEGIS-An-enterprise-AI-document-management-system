@@ -32,7 +32,28 @@ export function AuthProvider({ children }) {
     setReauthReason("");
     toast("You have been signed out.", "success");
   }, [session]);
-  const value = useMemo(() => ({ session, reauthReason, signIn, signOut }), [session, reauthReason, signIn, signOut]);
+    const updateSessionUser = useCallback((updatedUser) => {
+    const nextSession = {
+      ...session,
+      user: {
+        ...session.user,
+        ...updatedUser,
+      },
+    };
+
+    setSession(nextSession);
+    setSessionState(nextSession);
+  }, [session]);
+  const value = useMemo(
+    () => ({
+      session,
+      reauthReason,
+      signIn,
+      signOut,
+      updateSessionUser,
+    }),
+    [session, reauthReason, signIn, signOut, updateSessionUser],
+  );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

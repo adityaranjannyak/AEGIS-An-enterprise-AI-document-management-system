@@ -116,16 +116,23 @@ public class UserService {
     }
 
     private Role resolveRole(User user) {
-        Long roleId = user.getRole().getId();
-        if (roleId != null) {
-            return roleRepo.findById(roleId)
-                    .orElseThrow(() -> new RuntimeException("Role not found."));
-        }
-        String roleName = user.getRole().getName();
-        return roleRepo.findAll().stream()
-                .filter(role -> role.getName().equalsIgnoreCase(roleName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Role not found."));
+    if (user.getRole() == null) {
+        throw new IllegalArgumentException("Role is required.");
+    }
+
+    Long roleId = user.getRole().getId();
+    if (roleId != null) {
+        return roleRepo.findById(roleId)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found."));
+    }
+
+    String roleName = user.getRole().getName();
+    if (roleName == null || roleName.isBlank()) {
+        throw new IllegalArgumentException("Role name is required.");
+    }
+
+    return roleRepo.findByNameIgnoreCase(roleName.trim())
+            .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName));
     }
 
     public void deleteUser(Long id) {
