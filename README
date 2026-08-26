@@ -1,1 +1,264 @@
-THIS IS AN ONGOING PROJECT. PLEASE STAY TUNED!
+# AEGIS — AI-Enabled Enterprise Document Management System
+
+AEGIS (AI-Enabled Enterprise Document Management System) is a full-stack document management platform designed to securely store, organize, manage, and retrieve enterprise documents.
+
+The system combines **role-based access control, document permissions, activity tracking, secure authentication, and AI-powered document interaction using RAG** into a single application.
+
+## Features
+
+- Secure user authentication with JWT
+- Role-based access control
+- Document upload and management
+- Document-level permission management
+- Document search and filtering
+- Document metadata management
+- Activity and audit tracking
+- User and role management
+- Notifications
+- AI-powered document assistant
+- Retrieval-Augmented Generation (RAG) for document-based question answering
+- PDF text extraction and document chunking
+- Vector embeddings for semantic retrieval
+- Ollama-based local LLM and embedding integration
+- Responsive web interface
+- Contact and access-denied pages
+- Secure configuration using environment-specific properties
+
+## Technology Stack
+
+### Backend
+- Java
+- Spring Boot
+- Spring Security
+- Spring Data JPA / Hibernate
+- REST APIs
+- JWT Authentication
+- Maven
+
+### Frontend
+- React
+- JavaScript
+- HTML5
+- CSS3
+- Vite
+
+### AI / RAG
+- Retrieval-Augmented Generation (RAG)
+- Ollama
+- LLM integration
+- Text embeddings
+- Semantic retrieval
+- PDF text extraction
+- Document chunking
+
+### Database
+- Relational database
+- JPA / Hibernate
+- Separate database configuration for application and RAG data
+
+### Development & Tools
+- Git & GitHub
+- Postman
+- Maven
+- npm
+
+## System Architecture
+
+AEGIS follows a layered full-stack architecture:
+
+```text
+                    ┌──────────────────────┐
+                    │      React UI        │
+                    │      Frontend        │
+                    └──────────┬───────────┘
+                               │ REST APIs
+                               ▼
+                    ┌──────────────────────┐
+                    │    Spring Boot       │
+                    │      Backend         │
+                    ├──────────────────────┤
+                    │ Controllers           │
+                    │ Services              │
+                    │ Security / JWT        │
+                    │ Repositories           │
+                    └───────┬───────┬───────┘
+                            │       │
+                ┌───────────┘       └──────────────┐
+                ▼                                  ▼
+       ┌─────────────────┐                ┌─────────────────┐
+       │   Application   │                │   RAG Pipeline  │
+       │    Database     │                │                 │
+       └─────────────────┘                │ PDF Extraction  │
+                                          │ Chunking        │
+                                          │ Embeddings      │
+                                          │ Retrieval       │
+                                          │ LLM Generation  │
+                                          └─────────────────┘
+RAG Pipeline
+
+The AI assistant processes enterprise documents through a Retrieval-Augmented Generation pipeline:
+
+Document Upload
+      ↓
+PDF Text Extraction
+      ↓
+Text Chunking
+      ↓
+Embedding Generation
+      ↓
+Vector Storage
+      ↓
+Semantic Retrieval
+      ↓
+Relevant Context
+      ↓
+LLM
+      ↓
+Context-Aware Answer
+
+This allows users to ask questions about their documents while grounding responses in the available document content.
+
+Security
+
+AEGIS implements multiple layers of application security:
+
+JWT-based authentication
+Spring Security
+Role-based authorization
+Document-level permissions
+Protected API endpoints
+Separation of application secrets from source control
+Configurable JWT signing secret
+Access-denied handling
+
+Sensitive configuration such as database credentials and JWT secrets is intentionally excluded from the repository.
+
+Project Structure
+Enterprise-AI-Document-Management-System/
+│
+├── DMS/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/aditya/DMS/
+│   │   │   │       ├── config/
+│   │   │   │       ├── controller/
+│   │   │   │       ├── entity/
+│   │   │   │       ├── repository/
+│   │   │   │       └── service/
+│   │   │   └── resources/
+│   │   │       └── application.properties.example
+│   │   └── test/
+│   └── pom.xml
+│
+├── dms-frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── auth/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── utils/
+│   ├── package.json
+│   └── vite.config.js
+│
+└── .gitignore
+Running Locally
+Prerequisites
+
+Make sure the following are installed:
+
+Java
+Maven
+Node.js and npm
+A relational database
+Ollama, if using the local AI/RAG functionality
+Backend
+
+Navigate to the backend:
+
+cd DMS
+
+Configure your local application.properties using the provided:
+
+application.properties.example
+
+Then run:
+
+./mvnw spring-boot:run
+
+On Windows:
+
+mvnw.cmd spring-boot:run
+Frontend
+
+Open another terminal:
+
+cd dms-frontend
+npm install
+npm run dev
+
+The Vite development server will provide the frontend URL in the terminal.
+
+Configuration
+
+The repository contains example configuration files for required environment-specific settings.
+
+For the backend, create:
+
+DMS/src/main/resources/application.properties
+
+using:
+
+DMS/src/main/resources/application.properties.example
+
+Do not commit real credentials, JWT secrets, database passwords, or other sensitive configuration.
+
+## Screenshots
+
+### Login & Authentication
+
+![AEGIS Login](screenshots/Login.png)
+
+### Dashboard
+
+![AEGIS Dashboard](screenshots/Dashboard.png)
+
+### Document Management
+
+![AEGIS Documents](screenshots/Documents%20section.png)
+
+### AI Assistant & RAG
+
+![AEGIS AI Assistant](screenshots/AI%20ChatBOT.png)
+
+### Activity Tracking
+
+![AEGIS Activity](screenshots/Activity%20tab.png)
+
+### User Management
+
+![AEGIS Users](screenshots/Users.png)
+
+### Profile & Settings
+
+![AEGIS Profile](screenshots/ME.png)
+Future Enhancements
+
+Potential future improvements include:
+
+Cloud deployment
+Object-storage integration
+Advanced document versioning
+More sophisticated semantic search
+Additional LLM providers
+Automated document classification
+OCR support for scanned documents
+Enterprise-scale observability and monitoring
+Author
+
+Aditya Ranjan
+
+GitHub: @adityaranjannyak
