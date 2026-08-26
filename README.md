@@ -5,7 +5,40 @@ AEGIS (AI-Enhanced Governance & Information Security) is a full-stack enterprise
 AEGIS also integrates an AI-powered document assistant using Retrieval-Augmented Generation (RAG), allowing users to interact with their documents through natural-language questions. Uploaded documents are processed through PDF text extraction, text chunking, embedding generation, vector storage, and semantic retrieval before relevant context is provided to the language model. The AI chatbot uses this retrieved context to generate document-grounded responses, while Ollama provides local LLM and embedding capabilities. This combines enterprise document governance and information security with AI-assisted document discovery and knowledge retrieval.
 
 ---
+## Screenshots
 
+### Login & Authentication
+
+<img src="screenshots/Login.png" alt="AEGIS Login" width="900">
+
+### Dashboard
+
+<img src="screenshots/Dashboard.png" alt="AEGIS Dashboard" width="900">
+
+### Document Management
+
+<img src="screenshots/Documents%20section.png" alt="AEGIS Document Management" width="900">
+
+### Upload Document
+
+<img src="screenshots/Upload%20Document%20section.png" alt="AEGIS Upload Document" width="900">
+
+### AI Assistant & RAG
+
+<img src="screenshots/AI%20ChatBOT.png" alt="AEGIS AI Assistant" width="900">
+
+### Activity Tracking
+
+<img src="screenshots/Activity%20tab.png" alt="AEGIS Activity Tracking" width="900">
+
+### User Management
+
+<img src="screenshots/Users.png" alt="AEGIS User Management" width="900">
+
+### Profile & Settings
+
+<img src="screenshots/ME.png" alt="AEGIS Profile and Settings" width="900">
+---
 ## Features
 
 ### Authentication & Security
