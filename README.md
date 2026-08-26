@@ -377,38 +377,6 @@ Do not commit real credentials or secrets.
 
 ---
 
-# Screenshots
-
-## Login & Authentication
-
-![AEGIS Login](dms-frontend/screenshots/Login.png)
-
-## Dashboard
-
-![AEGIS Dashboard](dms-frontend/screenshots/Dashboard.png)
-
-## Document Management
-
-![AEGIS Document Management](dms-frontend/screenshots/Documents%20section.png)
-
-## AI Assistant & RAG
-
-![AEGIS AI Assistant](dms-frontend/screenshots/AI%20ChatBOT.png)
-
-## Activity Tracking
-
-![AEGIS Activity Tracking](dms-frontend/screenshots/Activity%20tab.png)
-
-## User Management
-
-![AEGIS User Management](dms-frontend/screenshots/Users.png)
-
-## Profile & Settings
-
-![AEGIS Profile and Settings](dms-frontend/screenshots/ME.png)
-
----
-
 # Future Enhancements
 
 Potential future improvements include:
