@@ -376,6 +376,13 @@ Configure the required:
 Do not commit real credentials or secrets.
 
 ---
+## Screenshots
+
+A visual showcase of the AEGIS platform, including authentication, document management, AI-assisted document interaction, activity tracking, and administration.
+
+[View AEGIS Screenshots →](screenshots.md)
+
+---
 
 # Future Enhancements
 
